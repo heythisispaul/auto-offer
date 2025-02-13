@@ -1,4 +1,4 @@
-export const chunkArray = <T extends unknown>(
+export const chunkArray = <T>(
   array: T[],
   chunkSize: number
 ) => {
@@ -12,5 +12,5 @@ export const chunkArray = <T extends unknown>(
   return chunks;
 };
 
-export const delay = async (ms: number) =>
+export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));

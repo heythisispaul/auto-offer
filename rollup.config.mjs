@@ -33,9 +33,6 @@ export default [
       commonjs(),
       postcss({
         extract: true,
-        config: {
-          path: './postcss.config.js',
-        },
       }),
       copy({
         targets: [
