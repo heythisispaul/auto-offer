@@ -1,7 +1,4 @@
-export const chunkArray = <T>(
-  array: T[],
-  chunkSize: number
-) => {
+export const chunkArray = <T>(array: T[], chunkSize: number) => {
   const chunks = [];
   const arrayCopy = [...array];
 

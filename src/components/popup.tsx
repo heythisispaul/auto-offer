@@ -1,17 +1,18 @@
-import { render } from "preact";
 import { useState } from "preact/hooks";
-import "../styles/main.tailwind.css"
 
-function App() {
+export function Popup() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="bg-red-500">
+    <div className="bg-base-100">
       <h1 className="p-20">Hello from Preact!</h1>
       <p>Counter: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button
+        className="btn btn-primary"
+        onClick={() => setCount((current) => current + 1)}
+      >
+        Increment
+      </button>
     </div>
   );
 }
-
-render(<App />, document.getElementById("app") as HTMLElement);

@@ -22,7 +22,7 @@ export default [
     plugins: [typescript(), resolve(), commonjs()],
   },
   {
-    input: "src/components/popup.tsx",
+    input: "src/index.tsx",
     output: {
       file: "dist/popup.js",
       format: "iife",
