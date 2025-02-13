@@ -6,17 +6,6 @@ import postcss from "rollup-plugin-postcss";
 
 export default [
   {
-    input: "src/styles/main.tailwind.css",
-    output: [{ file: "dist/index.css", format: "es" }],
-    plugins: [
-      postcss({
-        extract: true,
-        minimize: true,
-        plugins: [],
-      }),
-    ],
-  },
-  {
     input: "src/background.ts",
     output: {
       file: "dist/background.js",
@@ -33,7 +22,7 @@ export default [
     plugins: [typescript(), resolve(), commonjs()],
   },
   {
-    input: "src/popup/popup.tsx",
+    input: "src/components/popup.tsx",
     output: {
       file: "dist/popup.js",
       format: "iife",
@@ -42,9 +31,15 @@ export default [
       typescript(),
       resolve(),
       commonjs(),
+      postcss({
+        extract: true,
+        config: {
+          path: './postcss.config.js',
+        },
+      }),
       copy({
         targets: [
-          { src: "src/popup/popup.html", dest: "dist" },
+          { src: "src/html/popup.html", dest: "dist" },
           { src: "./manifest.json", dest: "dist" },
         ],
       }),
