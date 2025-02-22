@@ -1,7 +1,18 @@
 import { useState } from "preact/hooks";
+import { ConfigureReminder } from "@/features/configure-reminder/components/ConfigureReminder";
 
 export function Popup() {
   const [count, setCount] = useState(0);
+
+  const test = () => {
+    chrome.tabs.query({ active: true }, ([tab]) => {
+      if (!tab?.id) {
+        return;
+      }
+
+      chrome.tabs.sendMessage(tab.id, { message: "test" });
+    });
+  };
 
   return (
     <div className="bg-base-100">
@@ -13,6 +24,10 @@ export function Popup() {
       >
         Increment
       </button>
+      <button className="btn btn-secondary" onClick={test}>
+        Test
+      </button>
+      <ConfigureReminder />
     </div>
   );
 }

@@ -9,15 +9,13 @@ export default [
     input: "src/background.ts",
     output: {
       file: "dist/background.js",
-      format: "iife",
     },
     plugins: [typescript(), resolve(), commonjs()],
   },
   {
-    input: "src/content.ts",
+    input: "src/content-scripts.ts",
     output: {
-      file: "dist/content.js",
-      format: "iife",
+      file: "dist/content-scripts.js",
     },
     plugins: [typescript(), resolve(), commonjs()],
   },

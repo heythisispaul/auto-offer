@@ -1,19 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "My Chrome Extension",
-  "description": "A TypeScript-based Chrome extension.",
-  "version": "1.0",
+  "name": "Auto Offer",
+  "description": "Never miss a promo offer from your credit card again.",
+  "version": "0.1",
   "permissions": ["storage", "activeTab"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup/popup.html"
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
       "matches": ["https://*/*"],
-      "js": ["content.js"]
+      "js": ["content-scripts.js"]
     }
   ]
 }

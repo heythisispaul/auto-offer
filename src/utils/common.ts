@@ -11,3 +11,11 @@ export const chunkArray = <T>(array: T[], chunkSize: number) => {
 
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const constants = {
+  reminderCadences: ["Always", "Daily", "Weekly", "Monthly"],
+  storageKeys: {
+    reminderCadence: "reminderCadence",
+    remindedAt: "remindedAt",
+  },
+} as const;
