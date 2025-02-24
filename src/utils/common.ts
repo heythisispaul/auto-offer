@@ -13,7 +13,14 @@ export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const constants = {
-  reminderCadences: ["Always", "Daily", "Weekly", "Monthly"],
+  reminderCadences: ["Always", "Daily", "Weekly", "Monthly", "Never"],
+  actions: {
+    reminder: "reminder",
+    acceptOffers: "acceptOffers",
+  },
+  selectors: {
+    offerLists: {},
+  },
   storageKeys: {
     reminderCadence: "reminderCadence",
     remindedAt: "remindedAt",

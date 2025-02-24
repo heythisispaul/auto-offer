@@ -1,25 +1,41 @@
-import { getCardOfferButtons } from "./utils/amex";
+import { getCardOfferButtons, redeemAllOffers } from "./utils/amex";
+import { checkForReminder } from "./utils/scripts";
 import { constants } from "./utils/common";
-import { getShouldRemind } from "./utils/reminding";
 
-console.log("Content script loaded!");
+const { actions } = constants;
 
-chrome.runtime.onMessage.addListener((...stuff) => {
-  console.log("message received");
-  console.log(stuff);
-  console.log(getCardOfferButtons(document));
-});
+function init() {
+  console.log("Content script loaded!");
 
-chrome.storage.sync.get(
-  [constants.storageKeys.remindedAt, constants.storageKeys.reminderCadence],
-  (data) => {
-    const reminderCadence = data[constants.storageKeys.reminderCadence];
-    const remindedAt =
-      data[constants.storageKeys.remindedAt] ?? new Date().toUTCString();
+  const offerCardReminderObserver = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      const offerButtons = getCardOfferButtons(mutation.target as Document);
 
-    const shouldRemind = getShouldRemind(remindedAt, reminderCadence);
+      if (offerButtons.length) {
+        console.log("Reminder fired");
+        checkForReminder();
+        offerCardReminderObserver.disconnect();
+        break;
+      }
+    }
+  });
 
-    console.log("hey my stored data is", data);
-    console.log("should remind?", getShouldRemind(remindedAt, reminderCadence));
-  },
-);
+  offerCardReminderObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+    if (request.action === actions.acceptOffers) {
+      console.log("Accepting offers");
+      redeemAllOffers(document)
+        .then(() => sendResponse(true))
+        .catch(() => sendResponse(false));
+
+      // See: https://developer.chrome.com/docs/extensions/develop/concepts/messaging
+      return true;
+    }
+  });
+}
+
+init();

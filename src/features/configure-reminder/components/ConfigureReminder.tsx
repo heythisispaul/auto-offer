@@ -1,19 +1,19 @@
 import { Select } from "@/components/Select";
 import { constants } from "@/utils/common";
-import { useConfigureForm } from "../hooks/useConfigureForm";
+import { useReminderCadenceState } from "../hooks/useReminderCadenceState";
 
 export function ConfigureReminder() {
-  const { reminderCadence, updateReminderCadence, isLoading } =
-    useConfigureForm();
+  const [reminderCadence, updateReminderCadence] = useReminderCadenceState();
 
-  if (isLoading) {
+  if (!reminderCadence) {
     return null;
   }
 
   return (
-    <fieldset className="m-5">
+    <fieldset className="my-2">
       <legend className="fieldset-legend">Remind me to claim my offers</legend>
       <Select
+        className="m-1"
         aria-label="How often would you like to be reminded you have offers?"
         value={reminderCadence}
         onChange={(e) => {

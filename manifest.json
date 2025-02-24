@@ -12,7 +12,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*"],
+      "matches": [
+        "https://global.americanexpress.com/dashboard*",
+        "https://global.americanexpress.com/offers/eligible*"
+      ],
       "js": ["content-scripts.js"]
     }
   ]

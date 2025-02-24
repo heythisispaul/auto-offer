@@ -1,11 +1,16 @@
 import { JSX } from "preact/jsx-runtime";
 import { clsx } from "clsx";
 
-export type ButtonProps = JSX.HTMLAttributes<HTMLButtonElement>;
+export type ButtonProps = JSX.HTMLAttributes<HTMLButtonElement> & {
+  block?: boolean;
+};
 
-export function Button({ children, ...props }: ButtonProps) {
+export function Button({ children, block, ...props }: ButtonProps) {
   return (
-    <button {...props} className={clsx("btn", props.className)}>
+    <button
+      {...props}
+      className={clsx("btn", block && "btn-block", props.className)}
+    >
       {children}
     </button>
   );
