@@ -1,11 +1,21 @@
+import { constants } from "./utils/common";
+
+const { actions } = constants;
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension installed!");
 });
 
 chrome.runtime.onMessage.addListener((request) => {
-  if (request.action === "reminder") {
+  if (request.action === actions.reminder) {
     chrome.action.setPopup({ popup: "popup.html?reminder=true" });
     chrome.action.openPopup();
+  }
+
+  if (request.action === actions.openTab) {
+    chrome.tabs.create({
+      url: request.value,
+    });
   }
 });
 

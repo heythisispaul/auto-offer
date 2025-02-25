@@ -1,13 +1,13 @@
-import { delay, chunkArray } from "./common";
+import { delay, chunkArray, constants } from "./common";
 
 export const getCardOfferButtons = (
   document: Document,
   opts: { buttonClass?: string; buttonText?: string } = {},
 ) => {
   const { buttonClass, buttonText } = {
-    buttonClass: "offer-cta",
+    buttonClass: constants.selectors.amex.offerButtonClass,
+    buttonText: constants.selectors.amex.offerButtonText,
     // buttonText: "add to card",
-    buttonText: "learn more",
     ...opts,
   };
 
@@ -22,9 +22,7 @@ export const getCardOfferButtons = (
   return cardOfferButtons;
 };
 
-export const redeemAllOffers = async (document: Document) => {
-  const offerButtons = getCardOfferButtons(document);
-
+export const redeemAllOffers = async (offerButtons: HTMLButtonElement[]) => {
   const offerButtonChunks = chunkArray(offerButtons, 4);
 
   for await (const chunk of offerButtonChunks) {

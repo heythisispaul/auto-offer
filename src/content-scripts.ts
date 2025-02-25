@@ -1,36 +1,37 @@
-import { getCardOfferButtons, redeemAllOffers } from "./utils/amex";
-import { checkForReminder } from "./utils/scripts";
+import { checkForReminder, watchForOfferButtons } from "./utils/scripts";
 import { constants } from "./utils/common";
+import { getCardOfferButtons, redeemAllOffers } from "./utils/amex";
 
-const { actions } = constants;
+const { actions, urls } = constants;
 
 function init() {
   console.log("Content script loaded!");
 
-  const offerCardReminderObserver = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      const offerButtons = getCardOfferButtons(mutation.target as Document);
-
-      if (offerButtons.length) {
-        console.log("Reminder fired");
-        checkForReminder();
-        offerCardReminderObserver.disconnect();
-        break;
-      }
-    }
-  });
-
-  offerCardReminderObserver.observe(document.body, {
-    childList: true,
-    subtree: true,
+  watchForOfferButtons(() => {
+    console.log("Reminder fired");
+    checkForReminder();
   });
 
   chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+    if (request.action === actions.checkForOffers) {
+      sendResponse(
+        window.location.origin.includes(urls.amexBase) &&
+          !!getCardOfferButtons(document).length,
+      );
+    }
+
     if (request.action === actions.acceptOffers) {
-      console.log("Accepting offers");
-      redeemAllOffers(document)
-        .then(() => sendResponse(true))
-        .catch(() => sendResponse(false));
+      const resultWithPath = (isSuccess: boolean) => ({
+        isSuccess,
+        pathname: window.location.pathname,
+      });
+
+      watchForOfferButtons((offers) => {
+        // delay(5000).then(() => sendResponse(resultWithPath(true)));
+        redeemAllOffers(offers)
+          .then(() => sendResponse(resultWithPath(true)))
+          .catch(() => sendResponse(resultWithPath(false)));
+      });
 
       // See: https://developer.chrome.com/docs/extensions/develop/concepts/messaging
       return true;

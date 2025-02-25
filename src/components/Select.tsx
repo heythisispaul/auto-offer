@@ -1,5 +1,5 @@
-import { JSX } from "preact/jsx-runtime";
 import { clsx } from "clsx";
+import { type JSX } from "preact/jsx-runtime";
 
 function Option({
   children,

@@ -1,45 +1,55 @@
-import { useEffect, useState } from "preact/hooks";
-import { ConfigureReminder } from "@/features/configure-reminder/components/ConfigureReminder";
+import { useEffect } from "preact/hooks";
+import { ConfigureReminder } from "@/features/main-popup/components/ConfigureReminder";
 import { Reminder } from "@/features/reminder/components/Reminder";
+import {
+  Claiming,
+  ClaimError,
+  Claimed,
+} from "@/features/offer-claim/components";
+import { useClaimOfferFlow } from "@/features/offer-claim/hooks/useClaimOfferFlow";
+import { ClaimState } from "@/types";
+import { ClaimOffersButton } from "@/features/main-popup/components/ClaimOffersButton";
+import { ViewSourceButton } from "@/features/main-popup/components/ViewSourceButton";
+import { Card } from "./Card";
 
 export function Popup() {
-  const [count, setCount] = useState(0);
+  const { status, claimPathname, handleClaimOffers } = useClaimOfferFlow();
 
-  const test = () => {
-    chrome.tabs.query({ active: true }, ([tab]) => {
-      if (!tab?.id) {
-        return;
-      }
-
-      chrome.tabs.sendMessage(tab.id, { message: "test" });
-    });
-  };
+  const isReminder = window.location.search.includes("reminder");
 
   useEffect(() => {
     chrome.runtime.connect({ name: "popup" });
   }, []);
 
-  const isReminder = window.location.search.includes("reminder");
+  if (status === ClaimState.CLAIMING) {
+    return <Claiming />;
+  }
+
+  if (status === ClaimState.CLAIMED) {
+    return <Claimed pathname={claimPathname} />;
+  }
+
+  if (status === ClaimState.ERROR) {
+    return <ClaimError />;
+  }
 
   if (isReminder) {
-    return <Reminder />;
+    return <Reminder handleClaimOffers={handleClaimOffers} />;
   }
 
   return (
-    <div className="bg-base-100">
-      <h1 className="p-20">Hello from Preact!</h1>
-      <p>Counter: {count}</p>
-      <button
-        className="btn btn-primary"
-        onClick={() => setCount((current) => current + 1)}
-      >
-        Increment
-      </button>
-      <button className="btn btn-neutral" onClick={test}>
-        Test
-      </button>
-      <p>{window.location.href}</p>
-      <ConfigureReminder />
-    </div>
+    <Card>
+      <Card.Title>Auto Offer</Card.Title>
+      <p>Never miss an American Express offer again.</p>
+      <p>
+        Easily claim your offers, and set reminders to make sure {`you're`}{" "}
+        never forget.
+      </p>
+      <div className="mt-3 flex flex-col w-full gap-2">
+        <ClaimOffersButton handleClaimOffers={handleClaimOffers} />
+        <ConfigureReminder />
+        <ViewSourceButton />
+      </div>
+    </Card>
   );
 }

@@ -3,13 +3,19 @@ import { clsx } from "clsx";
 
 export type ButtonProps = JSX.HTMLAttributes<HTMLButtonElement> & {
   block?: boolean;
+  disabled?: boolean;
 };
 
-export function Button({ children, block, ...props }: ButtonProps) {
+export function Button({ children, disabled, block, ...props }: ButtonProps) {
   return (
     <button
       {...props}
-      className={clsx("btn", block && "btn-block", props.className)}
+      className={clsx(
+        "btn",
+        block && "btn-block",
+        disabled && "btn-disabled",
+        props.className,
+      )}
     >
       {children}
     </button>
