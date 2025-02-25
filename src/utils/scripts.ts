@@ -37,40 +37,6 @@ export const triggerNewTab = (url: string) => {
   chrome.runtime.sendMessage({ action: actions.openTab, value: url });
 };
 
-// export const getCanGetOffers = (onComplete = () => {}) => {
-//   chrome.tabs.query({ active: true }, ([tab]) => {
-//     if (tab?.id) {
-//       chrome.tabs.sendMessage(
-//         tab.id,
-//         { action: actions.checkForOffers },
-//         onComplete,
-//       );
-//     }
-//   });
-// };
-
-// export const triggerOfferAccept = ({
-//   onComplete = () => {},
-// }: {
-//   onComplete: ({
-//     isSuccess,
-//     pathname,
-//   }: {
-//     isSuccess: boolean;
-//     pathname: string;
-//   }) => void;
-// }) => {
-//   chrome.tabs.query({ active: true }, ([tab]) => {
-//     if (tab?.id) {
-//       chrome.tabs.sendMessage(
-//         tab.id,
-//         { action: actions.acceptOffers },
-//         onComplete,
-//       );
-//     }
-//   });
-// };
-
 export const triggerAndAwaitMessage = <T>({
   action,
   value,

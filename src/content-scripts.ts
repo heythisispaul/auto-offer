@@ -5,10 +5,7 @@ import { getCardOfferButtons, redeemAllOffers } from "./utils/amex";
 const { actions, urls } = constants;
 
 function init() {
-  console.log("Content script loaded!");
-
   watchForOfferButtons(() => {
-    console.log("Reminder fired");
     checkForReminder();
   });
 
@@ -27,7 +24,6 @@ function init() {
       });
 
       watchForOfferButtons((offers) => {
-        // delay(5000).then(() => sendResponse(resultWithPath(true)));
         redeemAllOffers(offers)
           .then(() => sendResponse(resultWithPath(true)))
           .catch(() => sendResponse(resultWithPath(false)));

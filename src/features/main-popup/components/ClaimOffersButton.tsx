@@ -22,7 +22,7 @@ export function ClaimOffersButton({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 my-4">
       <Button
         block
         disabled={!hasOffers}

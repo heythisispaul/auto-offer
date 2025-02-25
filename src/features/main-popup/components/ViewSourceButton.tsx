@@ -5,7 +5,7 @@ import { triggerNewTab } from "@/utils/scripts";
 export function ViewSourceButton() {
   return (
     <Button
-      className="bg-base-300 flex items-center justify-center btn-sm opacity-60 hover:opacity-100 transition-opacity duration-200"
+      className="flex items-center justify-center btn-sm btn-ghost mt-4"
       block
       onClick={() => triggerNewTab(constants.urls.repo)}
     >

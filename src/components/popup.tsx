@@ -42,8 +42,8 @@ export function Popup() {
       <Card.Title>Auto Offer</Card.Title>
       <p>Never miss an American Express offer again.</p>
       <p>
-        Easily claim your offers, and set reminders to make sure {`you're`}{" "}
-        never forget.
+        With Auto Offer, you can quickly claim all available card offers, and
+        set reminders so you never forget.
       </p>
       <div className="mt-3 flex flex-col w-full gap-2">
         <ClaimOffersButton handleClaimOffers={handleClaimOffers} />
